@@ -18,16 +18,15 @@ install:
 
 script:
   - yarn linter
-  - yarn test:ci
   # build docker images
-  - yarn build:docker
-  - docker tag miguelangeltorresfp/todo-list-back:latest registry.heroku.com/$HEROKU_APP_NAME/web
+  - docker build -t miguelangeltorresfp/todo-list-backend .
+  - docker tag miguelangeltorresfp/todo-list-backend registry.heroku.com/$HEROKU_APP_NAME/web
 
 deploy:
   provider: script
   script:
     # push to dockerhub & heroku
-    docker push miguelangeltorresfp/todo-list-back;
+    docker push miguelangeltorresfp/todo-list-backend;
     docker push registry.heroku.com/$HEROKU_APP_NAME/web;
     heroku container:release web --app $HEROKU_APP_NAME
   on:
